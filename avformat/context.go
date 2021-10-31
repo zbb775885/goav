@@ -10,7 +10,7 @@ import (
 	"time"
 	"unsafe"
 
-	"github.com/giorgisio/goav/avcodec"
+	"github.com/zbb775885/goav/avcodec"
 )
 
 const (
