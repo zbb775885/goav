@@ -31,9 +31,9 @@ func (ctxt *Context) Metadata() *Dictionary {
 	return (*Dictionary)(unsafe.Pointer(ctxt.metadata))
 }
 
-func (ctxt *Context) Internal() *AvFormatInternal {
-	return (*AvFormatInternal)(unsafe.Pointer(ctxt.internal))
-}
+// func (ctxt *Context) Internal() *AvFormatInternal {
+// 	return (*AvFormatInternal)(unsafe.Pointer(ctxt.internal))
+// }
 
 func (ctxt *Context) Pb() *AvIOContext {
 	return (*AvIOContext)(unsafe.Pointer(ctxt.pb))
