@@ -11,7 +11,6 @@ import (
 	"unsafe"
 
 	"github.com/giorgisio/goav/avcodec"
-	"github.com/giorgisio/goav/avutil"
 )
 
 const (
@@ -21,49 +20,49 @@ const (
 	AvseekFlagFrame    = 8 ///< seeking based on frame number
 )
 
-func (s *Context) AvFormatGetProbeScore() int {
-	return int(C.av_format_get_probe_score((*C.struct_AVFormatContext)(s)))
-}
+// func (s *Context) AvFormatGetProbeScore() int {
+// 	return int(C.av_format_get_probe_score((*C.struct_AVFormatContext)(s)))
+// }
 
-func (s *Context) AvFormatGetVideoCodec() *AvCodec {
-	return (*AvCodec)(C.av_format_get_video_codec((*C.struct_AVFormatContext)(s)))
-}
+// func (s *Context) AvFormatGetVideoCodec() *AvCodec {
+// 	return (*AvCodec)(C.av_format_get_video_codec((*C.struct_AVFormatContext)(s)))
+// }
 
-func (s *Context) AvFormatSetVideoCodec(c *AvCodec) {
-	C.av_format_set_video_codec((*C.struct_AVFormatContext)(s), (*C.struct_AVCodec)(c))
-}
+// func (s *Context) AvFormatSetVideoCodec(c *AvCodec) {
+// 	C.av_format_set_video_codec((*C.struct_AVFormatContext)(s), (*C.struct_AVCodec)(c))
+// }
 
-func (s *Context) AvFormatGetAudioCodec() *AvCodec {
-	return (*AvCodec)(C.av_format_get_audio_codec((*C.struct_AVFormatContext)(s)))
-}
+// func (s *Context) AvFormatGetAudioCodec() *AvCodec {
+// 	return (*AvCodec)(C.av_format_get_audio_codec((*C.struct_AVFormatContext)(s)))
+// }
 
-func (s *Context) AvFormatSetAudioCodec(c *AvCodec) {
-	C.av_format_set_audio_codec((*C.struct_AVFormatContext)(s), (*C.struct_AVCodec)(c))
-}
+// func (s *Context) AvFormatSetAudioCodec(c *AvCodec) {
+// 	C.av_format_set_audio_codec((*C.struct_AVFormatContext)(s), (*C.struct_AVCodec)(c))
+// }
 
-func (s *Context) AvFormatGetSubtitleCodec() *AvCodec {
-	return (*AvCodec)(C.av_format_get_subtitle_codec((*C.struct_AVFormatContext)(s)))
-}
+// func (s *Context) AvFormatGetSubtitleCodec() *AvCodec {
+// 	return (*AvCodec)(C.av_format_get_subtitle_codec((*C.struct_AVFormatContext)(s)))
+// }
 
-func (s *Context) AvFormatSetSubtitleCodec(c *AvCodec) {
-	C.av_format_set_subtitle_codec((*C.struct_AVFormatContext)(s), (*C.struct_AVCodec)(c))
-}
+// func (s *Context) AvFormatSetSubtitleCodec(c *AvCodec) {
+// 	C.av_format_set_subtitle_codec((*C.struct_AVFormatContext)(s), (*C.struct_AVCodec)(c))
+// }
 
-func (s *Context) AvFormatGetMetadataHeaderPadding() int {
-	return int(C.av_format_get_metadata_header_padding((*C.struct_AVFormatContext)(s)))
-}
+// func (s *Context) AvFormatGetMetadataHeaderPadding() int {
+// 	return int(C.av_format_get_metadata_header_padding((*C.struct_AVFormatContext)(s)))
+// }
 
-func (s *Context) AvFormatSetMetadataHeaderPadding(c int) {
-	C.av_format_set_metadata_header_padding((*C.struct_AVFormatContext)(s), C.int(c))
-}
+// func (s *Context) AvFormatSetMetadataHeaderPadding(c int) {
+// 	C.av_format_set_metadata_header_padding((*C.struct_AVFormatContext)(s), C.int(c))
+// }
 
-func (s *Context) AvFormatGetOpaque() {
-	C.av_format_get_opaque((*C.struct_AVFormatContext)(s))
-}
+// func (s *Context) AvFormatGetOpaque() {
+// 	C.av_format_get_opaque((*C.struct_AVFormatContext)(s))
+// }
 
-func (s *Context) AvFormatSetOpaque(o int) {
-	C.av_format_set_opaque((*C.struct_AVFormatContext)(s), unsafe.Pointer(&o))
-}
+// func (s *Context) AvFormatSetOpaque(o int) {
+// 	C.av_format_set_opaque((*C.struct_AVFormatContext)(s), unsafe.Pointer(&o))
+// }
 
 //This function will cause global side data to be injected in the next packet of each stream as well as after any subsequent seek.
 func (s *Context) AvFormatInjectGlobalSideData() {
@@ -90,7 +89,7 @@ func (s *Context) AvNewProgram(id int) *AvProgram {
 }
 
 //Read packets of a media file to get stream information.
-func (s *Context) AvformatFindStreamInfo(d **avutil.Dictionary) int {
+func (s *Context) AvformatFindStreamInfo(d **Dictionary) int {
 	return int(C.avformat_find_stream_info((*C.struct_AVFormatContext)(s), (**C.struct_AVDictionary)(unsafe.Pointer(d))))
 }
 
@@ -143,7 +142,7 @@ func (s *Context) AvformatCloseInput() {
 }
 
 //Allocate the stream private data and write the stream header to an output media file.
-func (s *Context) AvformatWriteHeader(o **avutil.Dictionary) int {
+func (s *Context) AvformatWriteHeader(o **Dictionary) int {
 	return int(C.avformat_write_header((*C.struct_AVFormatContext)(s), (**C.struct_AVDictionary)(unsafe.Pointer(o))))
 }
 
@@ -188,10 +187,7 @@ func (s *Context) AvFindDefaultStreamIndex() int {
 
 //Print detailed information about the input or output format, such as duration, bitrate, streams, container, programs, metadata, side data, codec and time base.
 func (s *Context) AvDumpFormat(i int, url string, io int) {
-	Curl := C.CString(url)
-	defer C.free(unsafe.Pointer(Curl))
-
-	C.av_dump_format((*C.struct_AVFormatContext)(unsafe.Pointer(s)), C.int(i), Curl, C.int(io))
+	C.av_dump_format((*C.struct_AVFormatContext)(unsafe.Pointer(s)), C.int(i), C.CString(url), C.int(io))
 }
 
 //Guess the sample aspect ratio of a frame, based on both the stream and the frame aspect ratio.
@@ -206,10 +202,7 @@ func (s *Context) AvGuessFrameRate(st *Stream, fr *Frame) avcodec.Rational {
 
 //Check if the stream st contained in s is matched by the stream specifier spec.
 func (s *Context) AvformatMatchStreamSpecifier(st *Stream, spec string) int {
-	Cspec := C.CString(spec)
-	defer C.free(unsafe.Pointer(Cspec))
-
-	return int(C.avformat_match_stream_specifier((*C.struct_AVFormatContext)(s), (*C.struct_AVStream)(st), Cspec))
+	return int(C.avformat_match_stream_specifier((*C.struct_AVFormatContext)(s), (*C.struct_AVStream)(st), C.CString(spec)))
 }
 
 func (s *Context) AvformatQueueAttachedPictures() int {
@@ -218,9 +211,9 @@ func (s *Context) AvformatQueueAttachedPictures() int {
 
 func (s *Context) AvformatNewStream2(c *AvCodec) *Stream {
 	stream := (*Stream)(C.avformat_new_stream((*C.struct_AVFormatContext)(s), (*C.struct_AVCodec)(c)))
-	stream.codec.pix_fmt = int32(avcodec.AV_PIX_FMT_YUV)
-	stream.codec.width = 640
-	stream.codec.height = 480
+	// stream.codec.pix_fmt = int32(avcodec.AV_PIX_FMT_YUV)
+	// stream.codec.width = 640
+	// stream.codec.height = 480
 	stream.time_base.num = 1
 	stream.time_base.num = 25
 	return stream

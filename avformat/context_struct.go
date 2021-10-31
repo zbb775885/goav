@@ -9,8 +9,6 @@ import "C"
 import (
 	"reflect"
 	"unsafe"
-
-	"github.com/giorgisio/goav/avutil"
 )
 
 func (ctxt *Context) Chapters() **AvChapter {
@@ -29,8 +27,8 @@ func (ctxt *Context) VideoCodec() *AvCodec {
 	return (*AvCodec)(unsafe.Pointer(ctxt.video_codec))
 }
 
-func (ctxt *Context) Metadata() *avutil.Dictionary {
-	return (*avutil.Dictionary)(unsafe.Pointer(ctxt.metadata))
+func (ctxt *Context) Metadata() *Dictionary {
+	return (*Dictionary)(unsafe.Pointer(ctxt.metadata))
 }
 
 func (ctxt *Context) Internal() *AvFormatInternal {
@@ -65,9 +63,9 @@ func (ctxt *Context) Streams() []*Stream {
 	return *((*[]*Stream)(unsafe.Pointer(&header)))
 }
 
-func (ctxt *Context) Filename() string {
-	return C.GoString((*C.char)(unsafe.Pointer(&ctxt.filename[0])))
-}
+// func (ctxt *Context) Filename() string {
+// 	return C.GoString((*C.char)(unsafe.Pointer(&ctxt.filename[0])))
+// }
 
 // func (ctxt *Context) CodecWhitelist() string {
 // 	return C.GoString(ctxt.codec_whitelist)

@@ -66,11 +66,11 @@ func (cp *AvCodecParameters) AvCodecGetType() MediaType {
 }
 
 func (cp *AvCodecParameters) AvCodecGetWidth() int {
-	return (int)(*((*int32)(unsafe.Pointer(&cp.width))))
+	return *((*int)(unsafe.Pointer(&cp.width)))
 }
 
 func (cp *AvCodecParameters) AvCodecGetHeight() int {
-	return (int)(*((*int32)(unsafe.Pointer(&cp.height))))
+	return *((*int)(unsafe.Pointer(&cp.height)))
 }
 
 func (cp *AvCodecParameters) AvCodecGetChannels() int {
@@ -81,19 +81,19 @@ func (cp *AvCodecParameters) AvCodecGetSampleRate() int {
 	return *((*int)(unsafe.Pointer(&cp.sample_rate)))
 }
 
-func (c *Codec) AvCodecGetMaxLowres() int {
-	return int(C.av_codec_get_max_lowres((*C.struct_AVCodec)(c)))
-}
+// func (c *Codec) AvCodecGetMaxLowres() int {
+// 	return int(C.av_codec_get_max_lowres((*C.struct_AVCodec)(c)))
+// }
 
 // AvCodecNext If c is NULL, returns the first registered codec, if c is non-NULL,
-func (c *Codec) AvCodecNext() *Codec {
-	return (*Codec)(C.av_codec_next((*C.struct_AVCodec)(c)))
-}
+// func (c *Codec) AvCodecNext() *Codec {
+// 	return (*Codec)(C.av_codec_next((*C.struct_AVCodec)(c)))
+// }
 
 // Register the codec codec and initialize libavcodec.
-func (c *Codec) AvcodecRegister() {
-	C.avcodec_register((*C.struct_AVCodec)(c))
-}
+// func (c *Codec) AvcodecRegister() {
+// 	C.avcodec_register((*C.struct_AVCodec)(c))
+// }
 
 //Return a name for the specified profile, if available.
 func (c *Codec) AvGetProfileName(p int) string {
@@ -135,11 +135,11 @@ func AvcodecLicense() string {
 }
 
 //Register all the codecs, parsers and bitstream filters which were enabled at configuration time.
-func AvcodecRegisterAll() {
-	C.av_register_all()
-	C.avcodec_register_all()
-	// C.av_log_set_level(0xffff)
-}
+// func AvcodecRegisterAll() {
+// 	C.av_register_all()
+// 	C.avcodec_register_all()
+// 	// C.av_log_set_level(0xffff)
+// }
 
 //Get the Class for Context.
 func AvcodecGetClass() *Class {
@@ -147,9 +147,9 @@ func AvcodecGetClass() *Class {
 }
 
 //Get the Class for Frame.
-func AvcodecGetFrameClass() *Class {
-	return (*Class)(C.avcodec_get_frame_class())
-}
+// func AvcodecGetFrameClass() *Class {
+// 	return (*Class)(C.avcodec_get_frame_class())
+// }
 
 //Get the Class for AvSubtitleRect.
 func AvcodecGetSubtitleRectClass() *Class {
@@ -167,12 +167,12 @@ func AvPacketAlloc() *Packet {
 
 //Pack a dictionary for use in side_data.
 func AvPacketPackDictionary(d *Dictionary, s *int) *uint8 {
-	return (*uint8)(C.av_packet_pack_dictionary((*C.struct_AVDictionary)(d), (*C.int)(unsafe.Pointer(s))))
+	return (*uint8)(C.av_packet_pack_dictionary((*C.struct_AVDictionary)(d), (*C.size_t)(unsafe.Pointer(s))))
 }
 
 //Unpack a dictionary from side_data.
 func AvPacketUnpackDictionary(d *uint8, s int, dt **Dictionary) int {
-	return int(C.av_packet_unpack_dictionary((*C.uint8_t)(d), C.int(s), (**C.struct_AVDictionary)(unsafe.Pointer(dt))))
+	return int(C.av_packet_unpack_dictionary((*C.uint8_t)(d), C.size_t(s), (**C.struct_AVDictionary)(unsafe.Pointer(dt))))
 }
 
 //Find a registered decoder with a matching codec ID.
@@ -210,9 +210,9 @@ func AvcodecFindEncoderByName(c string) *Codec {
 }
 
 //Put a string representing the codec tag codec_tag in buf.
-func AvGetCodecTagString(b string, bf uintptr, c uint) uintptr {
-	return uintptr(C.av_get_codec_tag_string(C.CString(b), C.size_t(bf), C.uint(c)))
-}
+// func AvGetCodecTagString(b string, bf uintptr, c uint) uintptr {
+// 	return uintptr(C.av_get_codec_tag_string(C.CString(b), C.size_t(bf), C.uint(c)))
+// }
 
 func AvcodecString(b string, bs int, ctxt *Context, e int) {
 	C.avcodec_string(C.CString(b), C.int(bs), (*C.struct_AVCodecContext)(ctxt), C.int(e))
@@ -250,9 +250,9 @@ func AvXiphlacing(s *string, v uint) uint {
 
 //If hwaccel is NULL, returns the first registered hardware accelerator, if hwaccel is non-NULL,
 //returns the next registered hardware accelerator after hwaccel, or NULL if hwaccel is the last one.
-func (a *AvHWAccel) AvHwaccelNext() *AvHWAccel {
-	return (*AvHWAccel)(C.av_hwaccel_next((*C.struct_AVHWAccel)(a)))
-}
+// func (a *AvHWAccel) AvHwaccelNext() *AvHWAccel {
+// 	return (*AvHWAccel)(C.av_hwaccel_next((*C.struct_AVHWAccel)(a)))
+// }
 
 //Get the type of the given codec.
 func AvcodecGetType(c CodecId) MediaType {

@@ -29,13 +29,13 @@ func AvprivFrameGetMetadatap(f *Frame) *Dictionary {
 	return (*Dictionary)(unsafe.Pointer(f.metadata))
 }
 
-func AvFrameSetQpTable(f *Frame, b *AvBufferRef, s, q int) int {
-	return int(C.av_frame_set_qp_table((*C.struct_AVFrame)(unsafe.Pointer(f)), (*C.struct_AVBufferRef)(unsafe.Pointer(b)), C.int(s), C.int(q)))
-}
+// func AvFrameSetQpTable(f *Frame, b *AvBufferRef, s, q int) int {
+// 	return int(C.av_frame_set_qp_table((*C.struct_AVFrame)(unsafe.Pointer(f)), (*C.struct_AVBufferRef)(unsafe.Pointer(b)), C.int(s), C.int(q)))
+// }
 
-func AvFrameGetQpTable(f *Frame, s, t *int) int8 {
-	return int8(*C.av_frame_get_qp_table((*C.struct_AVFrame)(unsafe.Pointer(f)), (*C.int)(unsafe.Pointer(s)), (*C.int)(unsafe.Pointer(t))))
-}
+// func AvFrameGetQpTable(f *Frame, s, t *int) int8 {
+// 	return int8(*C.av_frame_get_qp_table((*C.struct_AVFrame)(unsafe.Pointer(f)), (*C.int)(unsafe.Pointer(s)), (*C.int)(unsafe.Pointer(t))))
+// }
 
 //Allocate an Frame and set its fields to default values.
 func AvFrameAlloc() *Frame {
@@ -95,7 +95,7 @@ func AvFrameGetPlaneBuffer(f *Frame, p int) *AvBufferRef {
 
 //Add a new side data to a frame.
 func AvFrameNewSideData(f *Frame, d AvFrameSideDataType, s int) *AvFrameSideData {
-	return (*AvFrameSideData)(C.av_frame_new_side_data((*C.struct_AVFrame)(unsafe.Pointer(f)), (C.enum_AVFrameSideDataType)(d), C.int(s)))
+	return (*AvFrameSideData)(C.av_frame_new_side_data((*C.struct_AVFrame)(unsafe.Pointer(f)), (C.enum_AVFrameSideDataType)(d), C.size_t(s)))
 }
 
 func AvFrameGetSideData(f *Frame, t AvFrameSideDataType) *AvFrameSideData {
